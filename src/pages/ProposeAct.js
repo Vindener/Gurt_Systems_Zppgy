@@ -79,7 +79,7 @@ const ProposeAct = () => {
     if (file) formData.append("file", file);
 
     try {
-      const response = await fetch("/api/propose-act", {
+      const response = await fetch(`${API}/api/propose-act`, {
         method: "POST",
         body: formData,
       });
