@@ -153,19 +153,22 @@ const ProposeAct = () => {
             required
             margin="normal"
           />
+          <label htmlFor="file-upload">
+            <Button
+              variant="contained"
+              component="span"
+              fullWidth
+              sx={{ mt: 2, backgroundColor: "#1976d2", color: "white" }}
+            >
+              {file ? `Файл: ${file.name}` : "Додати файл"}
+            </Button>
+          </label>
+
           <FileInput
             id="file-upload"
             type="file"
             onChange={(e) => setFile(e.target.files[0])}
           />
-          <Button
-            variant="contained"
-            component="span"
-            fullWidth
-            sx={{ mt: 2, backgroundColor: "#1976d2", color: "white" }}
-          >
-            {file ? `Файл: ${file.name}` : "Додати файл"}
-          </Button>
           <StyledButton type="submit" variant="contained">
             Запропонувати акт
           </StyledButton>
