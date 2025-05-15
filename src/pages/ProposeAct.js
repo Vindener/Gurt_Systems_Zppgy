@@ -1,21 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { TextField, Button, MenuItem, Container, Typography, Paper } from "@mui/material";
+import {
+  TextField,
+  Button,
+  MenuItem,
+  Container,
+  Typography,
+  Paper,
+  Alert,
+} from "@mui/material";
 import styled from "@emotion/styled";
 
 const FormContainer = styled(Paper)`
   max-width: 600px;
   margin: auto;
+  margin-top: 12px;
   padding: 24px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
 const StyledButton = styled(Button)`
   width: 100%;
   background-color: #1976d2;
   color: white;
+  margin-top: 18px;
   &:hover {
     background-color: #115293;
   }
+`;
+
+const FileInput = styled("input")`
+  display: none;
 `;
 
 const ProposeAct = () => {
@@ -27,16 +40,21 @@ const ProposeAct = () => {
   const [reason, setReason] = useState("");
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const API = process.env.REACT_APP_API_BASE;
 
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await fetch("/api/students");
+        const response = await fetch(`${API}/api/students`);
         const data = await response.json();
         setStudents(data);
         setFilteredStudents(data);
       } catch (error) {
         console.error("Помилка завантаження студентів:", error);
+        setError(
+          "Не вдалося завантажити список студентів. Можливо проблема з сервером."
+        );
       }
     };
     fetchStudents();
@@ -51,6 +69,9 @@ const ProposeAct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage("");
+    setError("");
+
     const formData = new FormData();
     formData.append("student_id", selectedStudent);
     formData.append("date", date);
@@ -63,7 +84,10 @@ const ProposeAct = () => {
         body: formData,
       });
       const data = await response.json();
-      setMessage(data.message);
+      if (!response.ok) {
+        throw new Error(data.message || "Помилка під час відправки.");
+      }
+      setMessage("Акт успішно надіслано!");
       setSelectedStudent("");
       setDate("");
       setReason("");
@@ -71,7 +95,7 @@ const ProposeAct = () => {
       setSearchTerm("");
     } catch (error) {
       console.error("Помилка надсилання акту:", error);
-      setMessage("Помилка під час відправки");
+      setError(error.message);
     }
   };
 
@@ -81,7 +105,8 @@ const ProposeAct = () => {
         <Typography variant="h5" gutterBottom>
           Запропонувати акт
         </Typography>
-        {message && <Typography color="green">{message}</Typography>}
+        {message && <Alert severity="success">{message}</Alert>}
+        {error && <Alert severity="error">{error}</Alert>}
         <form onSubmit={handleSubmit}>
           <TextField
             fullWidth
@@ -99,7 +124,9 @@ const ProposeAct = () => {
             required
             margin="normal"
           >
-            <MenuItem value="" disabled>Оберіть студента</MenuItem>
+            <MenuItem value="" disabled>
+              Оберіть студента
+            </MenuItem>
             {filteredStudents.map((student) => (
               <MenuItem key={student.id} value={student.id}>
                 {student.pib} ({student.group})
@@ -126,7 +153,19 @@ const ProposeAct = () => {
             required
             margin="normal"
           />
-          <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+          <FileInput
+            id="file-upload"
+            type="file"
+            onChange={(e) => setFile(e.target.files[0])}
+          />
+          <Button
+            variant="contained"
+            component="span"
+            fullWidth
+            sx={{ mt: 2, backgroundColor: "#1976d2", color: "white" }}
+          >
+            {file ? `Файл: ${file.name}` : "Додати файл"}
+          </Button>
           <StyledButton type="submit" variant="contained">
             Запропонувати акт
           </StyledButton>
