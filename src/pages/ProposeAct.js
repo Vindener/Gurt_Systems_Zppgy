@@ -12,9 +12,13 @@ import styled from "@emotion/styled";
 
 const FormContainer = styled(Paper)`
   max-width: 600px;
-  margin: auto;
-  margin-top: 12px;
+  margin: 12px auto;
   padding: 24px;
+
+  @media (max-width: 768px) {
+    margin: 8px 6px;
+    padding: 12px;
+  }
 `;
 
 const StyledButton = styled(Button)`

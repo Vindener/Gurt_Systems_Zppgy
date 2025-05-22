@@ -31,6 +31,11 @@ const StyledPaper = styled(Paper)`
   max-width: 500px;
   background-color: #fafafa;
   width: 100%;
+
+  @media (max-width: 768px) {
+    margin: 6px 6 px;
+    padding: 10px;
+  }
 `;
 
 const StyledButton = styled(Button)`
