@@ -67,4 +67,38 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 ### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Опис
+
+Цей модуль є частиною клієнтської частини вебсистеми для керування у гуртожитках. Містить компонент `ProposeAct`, який дозволяє створювати та пропонувати акти порушення для студентів.
+
+## Структура
+
+- `public/` — стандартні публічні файли
+- `src/` — основний код:
+  - `App.js` — головний компонент додатку.
+  - `firebase.js` — налаштування підключення до Firebase.
+  - `pages/ProposeAct.js` — сторінка для подачі актів порушень.
+- `.env` — конфігурація середовища.
+- `netlify.toml` — конфігурація розгортання на Netlify.
+- `package.json` — залежності проєкту.
+
+## Як змінювати компонент ProposeAct
+
+1. **Файл:** `src/pages/ProposeAct.js`
+2. **Що можна змінити:**
+   - Текстові підказки та поля введення;
+   - Валідацію форми;
+   - Вигляд таблиць або списків актів;
+   - Запити до Firebase (через `firebase.js`);
+   - Додавання нових типів актів або документів заохочування.
+
+## Інструкція
+
+1. Для редагування доступу до Firebase:
+   - відкрийте `firebase.js`
+   - змініть конфігураційні параметри, використовуючи новий JSON-ключ з Firebase Console.
+2. Для оновлення середовища:
+   - замініть значення у `.env`
+   - збережіть і перезапустіть сервер (`npm start`)
+3. Для стилізації або UI:
+   - редагуйте `App.css` або окремо додайте модулі стилів.
